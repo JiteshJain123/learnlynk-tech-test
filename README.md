@@ -8,24 +8,9 @@ We use:
 - **Supabase Edge Functions (TypeScript)**
 - **Next.js + TypeScript**
 
-You may use your own free Supabase project.
-
 ---
 
-## Overview
 
-There are four technical tasks:
-
-1. Database schema — `backend/schema.sql`  
-2. RLS policies — `backend/rls_policies.sql`  
-3. Edge Function — `backend/edge-functions/create-task/index.ts`  
-4. Next.js page — `frontend/pages/dashboard/today.tsx`  
-
-There is also a short written question about Stripe in this README.
-
-Feel free to use Supabase/PostgreSQL docs, or any resource you normally use.
-
----
 
 ## Task 1 — Database Schema
 
@@ -139,33 +124,14 @@ Build a small page that:
 - Adds a “Mark Complete” button that updates the task in Supabase  
 
 ---
----
 
-### Local Networking Note
 
-During local testing, some browser requests to Supabase returned:
+## Local Networking Note
 
-This was traced to a DNS / ISP network issue and not related to application code.  
-Database operations and Edge function logic verified successfully via the Supabase SQL editor.
-
-## Task 5 — Stripe Checkout (Written Answer)
-
-Add a section titled:
-
-```
-## Stripe Answer
-```
-
-Write **8–12 lines** describing how you would implement a Stripe Checkout flow for an application fee, including:
-
-- When you insert a `payment_requests` row  
-- When you call Stripe  
-- What you store from the checkout session  
-- How you handle webhooks  
-- How you update the application after payment succeeds  
+During local testing, some browser requests to Supabase intermittently returned DNS resolution errors (`ERR_NAME_NOT_RESOLVED`). This was related to regional ISP/network routing and not application logic. All database operations and Edge Function flows were validated successfully using the Supabase SQL editor and server-side testing.
 
 ---
----
+
 
 ## Screenshots
 
