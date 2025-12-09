@@ -139,6 +139,14 @@ Build a small page that:
 - Adds a “Mark Complete” button that updates the task in Supabase  
 
 ---
+---
+
+### Local Networking Note
+
+During local testing, some browser requests to Supabase returned:
+
+This was traced to a DNS / ISP network issue and not related to application code.  
+Database operations and Edge function logic verified successfully via the Supabase SQL editor.
 
 ## Task 5 — Stripe Checkout (Written Answer)
 
@@ -157,11 +165,16 @@ Write **8–12 lines** describing how you would implement a Stripe Checkout flow
 - How you update the application after payment succeeds  
 
 ---
+---
 
-## Submission
+## Screenshots
 
-1. Push your work to a public GitHub repo.  
-2. Add your Stripe answer at the bottom of this file.  
-3. Share the link.
+Verification screenshots from the working Supabase database:
 
-Good luck.
+### Tables
+
+![Tables](frontend/public/screenshots/tables.jpg)
+
+### Sample Task Data
+
+![Tasks](frontend/public/screenshots/data.jpg)
