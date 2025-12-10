@@ -8,9 +8,24 @@ We use:
 - **Supabase Edge Functions (TypeScript)**
 - **Next.js + TypeScript**
 
+You may use your own free Supabase project.
+
 ---
 
+## Overview
 
+There are four technical tasks:
+
+1. Database schema — `backend/schema.sql`  
+2. RLS policies — `backend/rls_policies.sql`  
+3. Edge Function — `backend/edge-functions/create-task/index.ts`  
+4. Next.js page — `frontend/pages/dashboard/today.tsx`  
+
+There is also a short written question about Stripe in this README.
+
+Feel free to use Supabase/PostgreSQL docs, or any resource you normally use.
+
+---
 
 ## Task 1 — Database Schema
 
@@ -125,13 +140,43 @@ Build a small page that:
 
 ---
 
+## Task 5 — Stripe Checkout (Written Answer)
+
+Add a section titled:
+
+```
+## Stripe Answer
+```
+
+Write **8–12 lines** describing how you would implement a Stripe Checkout flow for an application fee, including:
+
+- When you insert a `payment_requests` row  
+- When you call Stripe  
+- What you store from the checkout session  
+- How you handle webhooks  
+- How you update the application after payment succeeds  
+
+---
+
+## Submission
+
+1. Push your work to a public GitHub repo.  
+2. Add your Stripe answer at the bottom of this file.  
+3. Share the link.
+
+Good luck.
+
+## Stripe Answer
+
+I would first create a `payment_requests` table linked to the `applications` table, storing fields such as `application_id`, `amount`, `currency`, `status`, and `stripe_session_id`. When a user clicks **“Pay Application Fee”**, the backend (Next.js API route or Supabase Edge Function) would call `stripe.checkout.sessions.create()` with the payment amount, success and cancel URLs, and the `application_id` in the session metadata. Once Stripe returns the Checkout Session object, I would insert a database record into `payment_requests` with `status = "pending"` and store the returned `stripe_session_id`. The frontend would then redirect the user to `session.url` to complete the payment. A Stripe webhook endpoint would listen for `checkout.session.completed` events and verify the signature. On receiving the event, I would locate the corresponding `payment_requests` record, update its status to `paid`, save any relevant Stripe identifiers such as `payment_intent`, and finally update the related `applications` row (for example, `stage = "fee_paid"`) and append a timeline entry to reflect successful payment completion.
+
+---
 
 ## Local Networking Note
 
 During local testing, some browser requests to Supabase intermittently returned DNS resolution errors (`ERR_NAME_NOT_RESOLVED`). This was related to regional ISP/network routing and not application logic. All database operations and Edge Function flows were validated successfully using the Supabase SQL editor and server-side testing.
 
 ---
-
 
 ## Screenshots
 
