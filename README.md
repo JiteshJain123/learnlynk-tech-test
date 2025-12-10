@@ -166,6 +166,7 @@ Write **8–12 lines** describing how you would implement a Stripe Checkout flow
 
 Good luck.
 
+---
 ## Stripe Answer
 
 I would first create a `payment_requests` table linked to the `applications` table, storing fields such as `application_id`, `amount`, `currency`, `status`, and `stripe_session_id`. When a user clicks **“Pay Application Fee”**, the backend (Next.js API route or Supabase Edge Function) would call `stripe.checkout.sessions.create()` with the payment amount, success and cancel URLs, and the `application_id` in the session metadata. Once Stripe returns the Checkout Session object, I would insert a database record into `payment_requests` with `status = "pending"` and store the returned `stripe_session_id`. The frontend would then redirect the user to `session.url` to complete the payment. A Stripe webhook endpoint would listen for `checkout.session.completed` events and verify the signature. On receiving the event, I would locate the corresponding `payment_requests` record, update its status to `paid`, save any relevant Stripe identifiers such as `payment_intent`, and finally update the related `applications` row (for example, `stage = "fee_paid"`) and append a timeline entry to reflect successful payment completion.
@@ -189,3 +190,15 @@ Verification screenshots from the working Supabase database:
 ### Sample Task Data
 
 ![Tasks](frontend/public/screenshots/data.jpg)
+
+---
+
+## Environment Variables
+
+A template file is included for local setup:
+### File Format:
+
+```env
+# Supabase configuration (replace with your own project values)
+NEXT_PUBLIC_SUPABASE_URL=YOUR_PUBLIC_URL_HERE
+NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_PUBLIC_ANON_KEY_HERE
